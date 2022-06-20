@@ -48,8 +48,8 @@ class Post(models.Model):
     post_heading = models.CharField(max_length=64)
     post_text = models.TextField(max_length=1024)
     post_rating = models.IntegerField(default=0)
-    post_author = models.ForeignKey('Author', on_delete=models.CASCADE)
-    post_cat = models.ManyToManyField('Category', through='PostCategory')
+    post_author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    post_cat = models.ManyToManyField(Category, through='PostCategory')
 
     #  Методы like() и dislike() в моделях Comment и Post, которые увеличивают/уменьшают рейтинг на единицу
     def like(self):
@@ -71,16 +71,16 @@ class Post(models.Model):
 
 
 class PostCategory(models.Model):
-    post_cat_post = models.ForeignKey('Post', on_delete=models.CASCADE)
-    post_cat_cat = models.ForeignKey('Category', on_delete=models.CASCADE)
+    post_cat_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post_cat_cat = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class Comment(models.Model):
     comment_text = models.CharField(max_length=128)
     comment_time = models.DateTimeField(auto_now_add=True)
     comment_rating = models.IntegerField(default=0)
-    comment_post = models.ForeignKey('Post', on_delete=models.CASCADE)
-    comment_user = models.ForeignKey('User', on_delete=models.CASCADE)
+    comment_post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    comment_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     #  Методы like() и dislike() в моделях Comment и Post, которые увеличивают/уменьшают рейтинг на единицу
     def like(self):
