@@ -42,14 +42,15 @@ class Post(models.Model):
     def dislike(self):
         pass
 
-    #  Метод preview() модели Post, который возвращает начало статьи (предварительный просмотр) длиной 124 символа и добавляет многоточие в конце.
+    #  Метод preview() модели Post, который возвращает начало статьи (предварительный просмотр)
+    #  длиной 124 символа и добавляет многоточие в конце.
     def preview(self):
         pass
 
 
 class PostCategory(models.Model):
-    post_cat_post = models.ForeignKey('Post')
-    post_cat_cat = models.ForeignKey('Category')
+    post_cat_post = models.ForeignKey('Post', on_delete=models.CASCADE)
+    post_cat_cat = models.ForeignKey('Category', on_delete=models.CASCADE)
 
 
 class Comment(models.Model):
@@ -60,6 +61,9 @@ class Comment(models.Model):
     comment_user = models.ForeignKey('User', on_delete=models.CASCADE)
 
     #  Методы like() и dislike() в моделях Comment и Post, которые увеличивают/уменьшают рейтинг на единицу
+    #  суммарный рейтинг каждой статьи автора умножается на 3;
+    #  суммарный рейтинг всех комментариев автора;
+    #  суммарный рейтинг всех комментариев к статьям автора.
     def like(self):
         pass
 
