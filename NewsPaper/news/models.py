@@ -8,8 +8,8 @@ from django.db.models import Sum
 
 class Author(models.Model):  # наследуемся от класса Model
     # full_name = models.CharField()
-    rating = models.IntegerField(default=0)
-    author_user = models.OneToOneField(User, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0, verbose_name='Рейтинг')
+    author_user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Автор')
 
     #  Метод update_rating() модели Author, который обновляет рейтинг пользователя, переданный в аргумент этого метода
     #  суммарный рейтинг каждой статьи автора умножается на 3;
@@ -27,9 +27,28 @@ class Author(models.Model):  # наследуемся от класса Model
         self.rating = pr * 3 + cr
         self.save()
 
+    def __str__(self):
+        return f'{self.author_user}'
+
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Авторы'
+
+
 
 class Category(models.Model):
-    cat = models.CharField(max_length=64, unique=True)
+    cat = models.CharField(
+        max_length=64,
+        unique=True,
+        help_text='Категория поста',
+        verbose_name='Категория')
+
+    def __str__(self):
+        return f'{self.cat}'
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
 
 
 article = 'AR'
@@ -43,13 +62,14 @@ class Post(models.Model):
     )
     post_type = models.CharField(max_length=2,
                                  choices=POST,
-                                 default=article)
+                                 default=article,
+                                 verbose_name='Тип поста')
     post_time = models.DateTimeField(auto_now_add=True)
-    post_heading = models.CharField(max_length=64)
-    post_text = models.TextField(max_length=1024)
-    post_rating = models.IntegerField(default=0)
-    post_author = models.ForeignKey(Author, on_delete=models.CASCADE)
-    post_cat = models.ManyToManyField(Category, through='PostCategory')
+    post_heading = models.CharField(max_length=64, verbose_name='Заголовок поста')
+    post_text = models.TextField(max_length=1024, verbose_name='Текст поста')
+    post_rating = models.IntegerField(default=0, verbose_name='Рейтинг поста')
+    post_author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='Автор поста')
+    post_cat = models.ManyToManyField(Category, through='PostCategory', verbose_name='Категория поста')
 
     #  Методы like() и dislike() в моделях Comment и Post, которые увеличивают/уменьшают рейтинг на единицу
     def like(self):
@@ -68,6 +88,14 @@ class Post(models.Model):
     #  длиной 124 символа и добавляет многоточие в конце.
     def preview(self):
         return f'{self.post_text[0:123]} ...'
+
+    def __str__(self):
+        return f'"{self.post_heading}" написал {self.post_author}'
+
+    class Meta:
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
+        ordering = ['post_time']  # Порядок/сортировка вывода (по умолчанию по pk)
 
 
 class PostCategory(models.Model):
