@@ -1,5 +1,7 @@
 {% extends 'default.html' %}
 
+{% load censor_filter %}
+
 {% block title %}
 Посты
 {% endblock title %}
@@ -17,9 +19,9 @@
 
            {% for news in newslist %}
            <tr>
-               <td>{{ news.post_heading }}</td>
+               <td>{{ news.post_heading|censor }}</td>
                <td>{{ news.post_time }}</td>
-               <td>{{ news.post_text|truncatechars:21 }}</td>
+               <td>{{ news.post_text|censor|truncatechars:21 }}</td>
                <!-- Используем наш фильтр -->
            </tr>
            {% endfor %}
