@@ -1,23 +1,11 @@
 {% extends 'default.html' %}
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{{ newslist }}
-</body>
-</html>
--->
+
 {% block title %}
 Посты
 {% endblock title %}
 
 {% block content %}
    <h1>Все сообщения</h1>
-   <!--<h3>{{ time_now|date:'M d Y' }}</h3>-->
    <hr>
    {% if newslist %}
        <table>
