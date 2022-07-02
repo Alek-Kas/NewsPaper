@@ -27,7 +27,7 @@ def censor(value):
     text = text.replace(',', ' ')
     text = text.replace('-', ' ')
     text = text.split()
-    print(text)
+    # print(text)
     text_out = ''
     for i in text:
         j = i.lower()
@@ -35,7 +35,7 @@ def censor(value):
         for k in BAD_WORDS:
             if j.find(k) != -1:
                 first = i[0]
-                last = len(i - 1) * '*'
+                last = (len(i) - 1) * '*'
                 # print(first, last)
                 i = first + last
                 # print(i)
@@ -49,6 +49,6 @@ def censor(value):
             print(i)
         '''
         text_out = text_out + ' ' + i
-        print(text_out)
+        # print(text_out)
     return f'{text_out}'
 
