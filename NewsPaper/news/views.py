@@ -13,9 +13,9 @@ class NewsList(ListView):
     template_name = 'news/news_list.html'
     context_object_name = 'newslist'
 
+
 class NewsDetail(DetailView):
     model = Post
     # Используем другой шаблон — news.html
     template_name = 'news/news.html'
-    # Название объекта, в котором будет выбранный пользователем продукт
     context_object_name = 'news'
