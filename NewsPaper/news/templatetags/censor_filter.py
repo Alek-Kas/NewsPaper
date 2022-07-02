@@ -10,19 +10,6 @@ BAD_WORDS = (
 
 @register.filter()
 def censor(value):
-    """
-   value: значение, к которому нужно применить фильтр
-   bad_word: плохие слова
-   """
-    # postfix = BAD_WORDS[bad_word]
-    # print(value)
-    '''
-    for i in BAD_WORDS:
-        print(i)
-        text = value.replace(i, '***')
-        print(text)
-    return f'{text}'
-    '''
     text = value.replace('.', ' ')
     text = text.replace(',', ' ')
     text = text.replace('-', ' ')
