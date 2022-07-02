@@ -1,0 +1,43 @@
+{% extends 'default.html' %}
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{ newslist }}
+</body>
+</html>
+-->
+{% block title %}
+Посты
+{% endblock title %}
+
+{% block content %}
+   <h1>Все сообщения</h1>
+   <!--<h3>{{ time_now|date:'M d Y' }}</h3>-->
+   <hr>
+   {% if newslist %}
+       <table>
+           <tr>
+               <td><h4>Заголовок поста</h4></td>
+               <td><h4>Дата поста</h4></td>
+               <td><h4>Текст поста</h4></td>
+           </tr>
+
+           {% for news in newslist %}
+           <tr>
+               <td>{{ news.post_heading }}</td>
+               <td>{{ news.post_time }}</td>
+               <td>{{ news.post_text|truncatechars:20 }}</td>
+               <!-- Используем наш фильтр -->
+           </tr>
+           {% endfor %}
+
+       </table>
+   {% else %}
+       <h2>Сообщений нет!</h2>!
+   {% endif %}
+{% endblock content %}

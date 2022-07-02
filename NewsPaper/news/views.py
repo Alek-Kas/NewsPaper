@@ -2,17 +2,20 @@ from django.shortcuts import render
 
 # Create your views here.
 from django.http import HttpResponse
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .models import Post
 
 
 class NewsList(ListView):
     model = Post
-    ordering = 'id'
-    template_name = 'NewsPaper/news_list.html'
+    ordering = '-post_time'
+    template_name = 'news/news_list.html'
     context_object_name = 'newslist'
-    # template_name = 'news.html'
-    # def newslist(request):
-    #     print('Кто-то зашёл на главную!')
-    #     return HttpResponse('Привет!')
+
+class NewsDetail(DetailView):
+    model = Post
+    # Используем другой шаблон — news.html
+    template_name = 'news/news.html'
+    # Название объекта, в котором будет выбранный пользователем продукт
+    context_object_name = 'news'
