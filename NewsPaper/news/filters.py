@@ -10,5 +10,8 @@ class PostFilter(FilterSet):
         fields = {
             'post_heading': ['icontains'],
             'post_cat': ['exact'],
-            'post_time': ['gt'],  # позже указываемой даты
+            #  'post_time': ['year__gt'],  # позже указываемой даты
         }
+        # filter_overrides = {
+        #     model.
+        # }
