@@ -9,6 +9,6 @@ class PostFilter(FilterSet):
         # будет производиться фильтрация.
         fields = {
             'post_heading': ['icontains'],
-            'post_cat': ['icontains'],
+            'post_cat': ['exact'],
             'post_time': ['gt'],  # позже указываемой даты
         }
