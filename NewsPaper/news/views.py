@@ -2,9 +2,10 @@
 
 # Create your views here.
 # from django.http import HttpResponse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from .filters import PostFilter
+from .forms import PostForm
 from .models import Post
 
 
@@ -47,3 +48,9 @@ class NewsSearch(ListView):
         # Добавляем в контекст объект фильтрации.
         context['filterset'] = self.filterset
         return context
+
+
+class NewsCreate(CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'news/news_create.html'

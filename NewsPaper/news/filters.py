@@ -1,8 +1,18 @@
-from django_filters import FilterSet
+from django_filters import FilterSet, DateFilter
 from .models import Post
+import django.forms
 
 
 class PostFilter(FilterSet):
+    post_time = DateFilter(
+        lookup_expr='gte',
+        widget=django.forms.DateInput(
+            attrs={
+                'type': 'date'
+            }
+        ))
+
+
     class Meta:
         model = Post
         # В fields мы описываем по каким полям модели
@@ -10,8 +20,5 @@ class PostFilter(FilterSet):
         fields = {
             'post_heading': ['icontains'],
             'post_cat': ['exact'],
-            #  'post_time': ['year__gt'],  # позже указываемой даты
+            # 'post_time': ['year__gt'],  # позже указываемой даты
         }
-        # filter_overrides = {
-        #     model.
-        # }
