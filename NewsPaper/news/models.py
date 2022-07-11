@@ -4,6 +4,7 @@ from django.db.models import Sum
 
 
 # Create your models here.
+from django.urls import reverse
 
 
 class Author(models.Model):  # наследуемся от класса Model
@@ -33,7 +34,6 @@ class Author(models.Model):  # наследуемся от класса Model
     class Meta:
         verbose_name = 'Автор'
         verbose_name_plural = 'Авторы'
-
 
 
 class Category(models.Model):
@@ -91,6 +91,10 @@ class Post(models.Model):
 
     def __str__(self):
         return f'"{self.post_heading}" написал {self.post_author}'
+
+    def get_absolute_url(self):
+        return reverse('news', args=[str(self.id)])
+
 
     class Meta:
         verbose_name = 'Пост'

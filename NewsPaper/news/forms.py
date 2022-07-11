@@ -24,5 +24,4 @@ class PostForm(forms.ModelForm):
             raise ValidationError(
                 "Заголовок не должно быть идентичен тексту статьи."
             )
-
         return cleaned_data

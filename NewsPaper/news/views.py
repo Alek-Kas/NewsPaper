@@ -2,11 +2,15 @@
 
 # Create your views here.
 # from django.http import HttpResponse
-from django.views.generic import ListView, DetailView, CreateView
+from datetime import datetime
+
+from django.contrib.auth.models import User
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
 from .filters import PostFilter
 from .forms import PostForm
-from .models import Post
+from .models import Post, Author
 
 
 class NewsList(ListView):
@@ -50,7 +54,32 @@ class NewsSearch(ListView):
         return context
 
 
-class NewsCreate(CreateView):
+class PostCreate(CreateView):
     form_class = PostForm
     model = Post
     template_name = 'news/news_create.html'
+    # success_url = reverse_lazy('newslist')
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        # f = self
+        # print('То что в self ', self)
+        # print('То что в form ', form)
+        post.post_type = 'news'
+        post.post_time = datetime.utcnow()
+        post.post_author_id = 1
+        # post.post_author = Author(User)
+        return super().form_valid(form)
+
+
+class PostDelete(DeleteView):
+    model = Post
+    # print(model, model.post_heading, model.pk)
+    template_name = 'news/news_delete.html'
+    success_url = reverse_lazy('newslist')
+
+
+class PostUpdate(UpdateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'news/news_edit.html'
