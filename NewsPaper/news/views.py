@@ -54,11 +54,10 @@ class NewsSearch(ListView):
         return context
 
 
-class PostCreate(CreateView):
+class NewsCreate(CreateView):
     form_class = PostForm
     model = Post
     template_name = 'news/news_create.html'
-    # success_url = reverse_lazy('newslist')
 
     def form_valid(self, form):
         post = form.save(commit=False)
@@ -66,9 +65,21 @@ class PostCreate(CreateView):
         # print('То что в self ', self)
         # print('То что в form ', form)
         post.post_type = 'news'
-        post.post_time = datetime.utcnow()
-        post.post_author_id = 1
-        # post.post_author = Author(User)
+        # post.post_time = datetime.utcnow()
+        # post.post_author_id = 1
+        post.post_author = Author.objects.get(author_user=self.request.user)
+        return super().form_valid(form)
+
+
+class ArticlesCreate(CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'articles/articles_create.html'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.post_type = 'article'
+        post.post_author = Author.objects.get(author_user=self.request.user)
         return super().form_valid(form)
 
 
