@@ -33,4 +33,4 @@ D4.7 Итоговое задание
  - /news/<int:pk>/delete/
  - /articles/create/
  - /articles/<int:pk>/edit/
- - /articles/<int:pk>/delete/ 
+ - /articles/<int:pk>/delete/
