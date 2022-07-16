@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
 
-
 # Create your models here.
 from django.urls import reverse
 
@@ -30,6 +29,9 @@ class Author(models.Model):  # наследуемся от класса Model
 
     def __str__(self):
         return f'{self.author_user}'
+
+    def get_absolute_url(self):
+        return reverse('authorupdate', args=[str(self.id)])
 
     class Meta:
         verbose_name = 'Автор'
@@ -94,7 +96,6 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('news', args=[str(self.id)])
-
 
     class Meta:
         verbose_name = 'Пост'

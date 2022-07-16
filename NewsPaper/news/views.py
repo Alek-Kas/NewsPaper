@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
 from .filters import PostFilter
-from .forms import PostForm
+from .forms import PostForm, AuthorForm
 from .models import Post, Author
 
 
@@ -94,3 +94,9 @@ class PostUpdate(UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'news/news_edit.html'
+
+
+class AythorUpdate(UpdateView):
+    form_class = AuthorForm
+    model = Author
+    template_name = 'news/author_edit.html'
