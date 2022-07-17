@@ -4,6 +4,7 @@
 # from django.http import HttpResponse
 from datetime import datetime
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
@@ -96,7 +97,7 @@ class PostUpdate(UpdateView):
     template_name = 'news/news_edit.html'
 
 
-class AythorUpdate(UpdateView):
+class AuthorUpdate(LoginRequiredMixin, UpdateView):
     form_class = AuthorForm
     model = Author
     template_name = 'news/author_edit.html'
