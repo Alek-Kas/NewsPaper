@@ -4,7 +4,7 @@
 # from django.http import HttpResponse
 from datetime import datetime
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
@@ -55,9 +55,10 @@ class NewsSearch(ListView):
         return context
 
 
-class NewsCreate(CreateView):
+class NewsCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
+    permission_required = ('news.add_post',)
     template_name = 'news/news_create.html'
 
     def form_valid(self, form):
@@ -72,9 +73,10 @@ class NewsCreate(CreateView):
         return super().form_valid(form)
 
 
-class ArticlesCreate(CreateView):
+class ArticlesCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
+    permission_required = ('news.add_post',)
     template_name = 'articles/articles_create.html'
 
     def form_valid(self, form):
@@ -84,16 +86,18 @@ class ArticlesCreate(CreateView):
         return super().form_valid(form)
 
 
-class PostDelete(DeleteView):
+class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
     # print(model, model.post_heading, model.pk)
     template_name = 'news/news_delete.html'
+    permission_required = ('news.delete_post',)
     success_url = reverse_lazy('newslist')
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(PermissionRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
+    permission_required = ('news.change_post',)
     template_name = 'news/news_edit.html'
 
 
