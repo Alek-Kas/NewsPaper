@@ -44,6 +44,7 @@ class Category(models.Model):
         unique=True,
         help_text='Категория поста',
         verbose_name='Категория')
+    subscribers = models.ManyToManyField(User, through='SubscribersUsers')
 
     def __str__(self):
         return f'{self.cat}'
@@ -127,3 +128,8 @@ class Comment(models.Model):
         self.save()
         # rating = self.comment_rating
         # return self.comment_rating -= 1
+
+
+class SubscribersUsers(models.Model):
+    sub_cat = models.ForeignKey(Category, on_delete=models.CASCADE)
+    sub_user = models.ForeignKey(User, on_delete=models.CASCADE)
