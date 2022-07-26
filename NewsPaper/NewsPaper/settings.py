@@ -11,8 +11,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
+# from emailconfig import EMAIL
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from emailconfig import E_PASSWORD, EMAIL
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -152,10 +155,18 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+print(EMAIL)
+DEFAULT_FROM_EMAIL = EMAIL
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 2525
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = EMAIL
+EMAIL_HOST_PASSWORD = E_PASSWORD
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
