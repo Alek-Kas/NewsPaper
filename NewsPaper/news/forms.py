@@ -1,7 +1,8 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from .models import Post, Author
+from .models import Post, Author, Category, SubscribersUsers
 
 
 class PostForm(forms.ModelForm):
@@ -22,7 +23,7 @@ class PostForm(forms.ModelForm):
 
         if heading == text:
             raise ValidationError(
-                "Заголовок не должно быть идентичен тексту статьи."
+                "Заголовок не должен быть идентичен тексту статьи."
             )
         return cleaned_data
 
@@ -33,4 +34,14 @@ class AuthorForm(forms.ModelForm):
         model = Author
         fields = [
             'author_user',
+        ]
+
+
+class CategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = SubscribersUsers
+        fields = [
+            'sub_cat',
+            'sub_user',
         ]

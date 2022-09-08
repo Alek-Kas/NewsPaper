@@ -49,6 +49,9 @@ class Category(models.Model):
     def __str__(self):
         return f'{self.cat}'
 
+    def get_absolute_url(self):
+        return reverse('subscribeupdate', args=[str(self.id)])
+
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
@@ -133,3 +136,6 @@ class Comment(models.Model):
 class SubscribersUsers(models.Model):
     sub_cat = models.ForeignKey(Category, on_delete=models.CASCADE)
     sub_user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('newslist')

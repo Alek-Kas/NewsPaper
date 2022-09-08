@@ -10,8 +10,23 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
 from .filters import PostFilter
-from .forms import PostForm, AuthorForm
-from .models import Post, Author
+from .forms import PostForm, AuthorForm, CategoryForm
+from .models import Post, Author, Category, SubscribersUsers
+
+
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
+
+# @receiver(post_save, sender=Post)
+# def notify_post_new(sender, instance, create, **kwargs):
+#     mail_subsriber(
+#         subject=f'{instance.Post.post_heading}',
+#         message=instance.message
+#     )
+#     print(f'{instance.Post.post_heading} {instance.message}')
+
+
+# post_save.connect(notify_post_new, sender=Post)
 
 
 class NewsList(ListView):
@@ -105,3 +120,12 @@ class AuthorUpdate(LoginRequiredMixin, UpdateView):
     form_class = AuthorForm
     model = Author
     template_name = 'news/author_edit.html'
+
+
+class SubscribeUpdate(LoginRequiredMixin, UpdateView):
+    # model = Category
+    model = SubscribersUsers
+    # ordering = 'cat'
+    form_class = CategoryForm
+    template_name = 'news/subscribe.html'
+    # print(str(Category.pk))
