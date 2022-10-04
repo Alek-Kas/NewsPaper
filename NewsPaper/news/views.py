@@ -49,9 +49,10 @@ class NewsDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(context)
+        #print(context)
         for category in self.get_object().post_cat.all():
             context['is_subscriber'] = self.request.user.category_set.filter(pk=category.pk).exists()
+        print(context)
         print(context['is_subscriber'])
         return context
 

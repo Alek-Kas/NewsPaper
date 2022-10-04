@@ -18,7 +18,7 @@ Post
         {{ category }}
     {% endfor %}
 <h4>Автор поста:<br>{{ news.post_author }}</h4>
-
+<!--
 {% if not is_subscribe %}
 <b>Вы можете подписаться на данную категорию:</b>
     {% for category in news.post_cat.all %}
@@ -34,5 +34,18 @@ Post
                 {{category}}</button></a>
     {% endfor %}
 {% endif %}
-
+-->
+    {% for category in news.post_cat.all %}
+        {% if is_subscriber %}
+            <b>Вы можете отписаться от данной категории:</b>
+                <a class="btn" href="delete_subscribe/{{ category.id }}">
+                    <button type="submit" value="follow" name="pk" class="btn btn-light btn-outline-danger">
+                        {{category}}</button></a>
+        {% else %}
+            <b>Вы можете подписаться на данную категорию:</b>
+                <a class="btn" href="add_subscribe/{{ category.id }}">
+                    <button type="submit" value="follow" name="pk" class="btn btn-light btn-outline-danger">
+                        {{category}}</button></a>
+        {% endif %}
+    {% endfor %}
 {% endblock content %}
