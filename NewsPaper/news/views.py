@@ -4,8 +4,10 @@
 # from django.http import HttpResponse
 from datetime import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
@@ -43,6 +45,31 @@ class NewsDetail(DetailView):
     template_name = 'news/news.html'
     context_object_name = 'news'
 
+    # pk_url_kwarg = 'id'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        for category in self.get_object().post_cat.all():
+            context['is_subscriber'] = self.request.user.category_set.filter(pk=category.pk).exists()
+        print(context['is_subscriber'])
+        return context
+
+
+@login_required
+def add_subscribe(request, **kwargs):
+    cat_number = int(kwargs['pk'])
+    print(cat_number)
+    Category.objects.get(pk=cat_number).subscribers.add(request.user)
+    return redirect('/news/')
+
+
+@login_required
+def delete_subscribe(request, **kwargs):
+    cat_number = int(kwargs['pk'])
+    print(cat_number)
+    Category.objects.get(pk=cat_number).subscribers.remove(request.user)
+    return redirect('/news/')
 
 class NewsSearch(ListView):
     model = Post
@@ -120,6 +147,15 @@ class AuthorUpdate(LoginRequiredMixin, UpdateView):
     form_class = AuthorForm
     model = Author
     template_name = 'news/author_edit.html'
+
+
+class SubscribeCreate(LoginRequiredMixin, CreateView):
+    # model = Category
+    model = SubscribersUsers
+    # ordering = 'cat'
+    form_class = CategoryForm
+    template_name = 'news/subscribe.html'
+    # print(str(Category.pk))
 
 
 class SubscribeUpdate(LoginRequiredMixin, UpdateView):

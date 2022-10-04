@@ -44,7 +44,7 @@ class Category(models.Model):
         unique=True,
         help_text='Категория поста',
         verbose_name='Категория')
-    subscribers = models.ManyToManyField(User, through='SubscribersUsers')
+    subscribers = models.ManyToManyField(User, through='SubscribersUsers', verbose_name='Подписчики')
 
     def __str__(self):
         return f'{self.cat}'

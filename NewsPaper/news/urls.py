@@ -8,7 +8,7 @@ from .views import (
     PostUpdate,
     ArticlesCreate,
     AuthorUpdate,
-    SubscribeUpdate,
+    SubscribeUpdate, SubscribeCreate, add_subscribe,
 )
 
 urlpatterns = [
@@ -21,5 +21,6 @@ urlpatterns = [
     path('edit/<int:pk>/', PostUpdate.as_view(), name='newsupdate'),
     path('author_edit/<int:pk>/', AuthorUpdate.as_view(), name='authorupdate'),
     path('subscribe/<int:pk>/', SubscribeUpdate.as_view(), name='subscribeupdate'),
-    # path('subscribe/', SubscribeUpdate.as_view(), name='subscribeupdate'),
+    path('subscribe/create/', SubscribeCreate.as_view(), name='subscribecreate'),
+    path('add_subscribe/<int:pk>/', add_subscribe, name='add_subscribe'),
 ]

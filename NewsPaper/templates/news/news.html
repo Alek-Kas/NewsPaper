@@ -13,5 +13,26 @@ Post
 <h1>Заголовок поста:<br>{{ news.post_heading|censor }}</h1><br>
 <h2>Текст поста:<br>{{ news.post_text|censor }}</h2><br>
 <h3>Дата создания поста:<br>{{ news.post_time|date:'d M Y' }}</h3><br>
-<!-- <h4>Автор поста:<br>{{ news.post_author }}</h4> -->
+<h3>Категории поста:<br>
+    {% for category in news.post_cat.all %}
+        {{ category }}
+    {% endfor %}
+<h4>Автор поста:<br>{{ news.post_author }}</h4>
+
+{% if not is_subscribe %}
+<b>Вы можете подписаться на данную категорию:</b>
+    {% for category in news.post_cat.all %}
+        <a class="btn" href="add_subscribe/{{ category.id }}">
+            <button type="submit" value="follow" name="pk" class="btn btn-light btn-outline-danger">
+                {{category}}</button></a>
+    {% endfor %}
+{% else %}
+<b>Вы можете отписаться от данной категории:</b>
+    {% for category in news.post_cat.all %}
+        <a class="btn" href="delete_subscribe/{{ category.id }}">
+            <button type="submit" value="follow" name="pk" class="btn btn-light btn-outline-danger">
+                {{category}}</button></a>
+    {% endfor %}
+{% endif %}
+
 {% endblock content %}
