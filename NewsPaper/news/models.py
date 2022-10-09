@@ -44,6 +44,7 @@ class Category(models.Model):
         unique=True,
         help_text='Категория поста',
         verbose_name='Категория')
+    # is_subscriber=False
     subscribers = models.ManyToManyField(User, through='SubscribersUsers', verbose_name='Подписчики')
 
     def __str__(self):

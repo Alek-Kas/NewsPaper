@@ -46,14 +46,22 @@ class NewsDetail(DetailView):
     context_object_name = 'news'
 
     # pk_url_kwarg = 'id'
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        #print(context)
-        for category in self.get_object().post_cat.all():
-            context['is_subscriber'] = self.request.user.category_set.filter(pk=category.pk).exists()
         print(context)
-        print(context['is_subscriber'])
+        for category in self.get_object().post_cat.all():
+            # print(self.request.user)
+            current_user = self.request.user
+            # print(current_user)
+            if current_user != 'AnonimusUser':
+                # context['is_subscriber', category.pk] = self.request.user.category_set.filter(pk=category.pk).exists()
+                context['is_subscriber'] = self.request.user.category_set.filter(pk=category.pk).exists()
+                # context['category'] = category.pk
+            # print(category)
+            print(context)
+            # print(context['category'])
+        print(context)
+        # print(context['is_subscriber'])
         return context
 
 
@@ -71,6 +79,7 @@ def delete_subscribe(request, **kwargs):
     print(cat_number)
     Category.objects.get(pk=cat_number).subscribers.remove(request.user)
     return redirect('/news/')
+
 
 class NewsSearch(ListView):
     model = Post
@@ -113,6 +122,9 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
         # post.post_time = datetime.utcnow()
         # post.post_author_id = 1
         post.post_author = Author.objects.get(author_user=self.request.user)
+        # for category in self.get_object().post_cat.all():
+        #     sub_user = self.request.user.category_set.filter(pk=user.pk).exists()
+        #     print(sub_user)
         return super().form_valid(form)
 
 

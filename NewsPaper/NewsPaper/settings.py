@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.flatpages',
-    'news',
+    'news.apps.NewsConfig',
     'accounts',
     'django_filters',
     'sign',
@@ -170,3 +170,9 @@ ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
+
+SITE_URL = 'http://127.0.0.1:8000'
+
+# APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
+#
+# APSCHELDULER_RUN_NOW_TIMEOUT = 25
