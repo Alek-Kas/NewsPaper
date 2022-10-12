@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # ... include the providers you want to enable:
     # 'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -173,6 +174,6 @@ ACCOUNT_FORMS = {'signup': 'sign.models.BasicSignupForm'}
 
 SITE_URL = 'http://127.0.0.1:8000'
 
-# APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
-#
-# APSCHELDULER_RUN_NOW_TIMEOUT = 25
+APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
+
+APSCHELDULER_RUN_NOW_TIMEOUT = 25
