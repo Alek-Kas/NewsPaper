@@ -6,6 +6,11 @@
 <form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Save" />
+    <h5>Вы создали за сегодня {{ count }} новостей</h5>
+    {% if post_limit %}
+        <input type="submit" value="Save" />
+    {% else %}
+        <h5>Больше новостей сегодня создать нельзя</h5>
+    {% endif %}
 </form>
 {% endblock content %}

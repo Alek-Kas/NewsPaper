@@ -2,7 +2,7 @@
 
 # Create your views here.
 # from django.http import HttpResponse
-from datetime import datetime
+import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -115,17 +115,22 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
 
     def form_valid(self, form):
         post = form.save(commit=False)
-        # f = self
-        # print('То что в self ', self)
-        # print('То что в form ', form)
         post.post_type = 'news'
-        # post.post_time = datetime.utcnow()
-        # post.post_author_id = 1
         post.post_author = Author.objects.get(author_user=self.request.user)
-        # for category in self.get_object().post_cat.all():
-        #     sub_user = self.request.user.category_set.filter(pk=user.pk).exists()
-        #     print(sub_user)
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        limit = 3
+        context['limit'] = limit
+        last_day = datetime.datetime.now() - datetime.timedelta(days=1)
+        posts_day_count = Post.objects.filter(
+            post_author__author_user=self.request.user,
+            post_time__gte=last_day,
+        ).count()
+        context['count'] = posts_day_count
+        context['post_limit'] = posts_day_count < limit
+        return context
 
 
 class ArticlesCreate(PermissionRequiredMixin, CreateView):
