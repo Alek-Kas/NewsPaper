@@ -36,5 +36,6 @@ def notify_about_new_post(sender, instance, **kwargs):
             print(subscribers)
 
         subscribers = [s.email for s in subscribers]
+        print(subscribers)
 
         send_notifications(instance.post_text, instance.pk, instance.post_heading, subscribers)
