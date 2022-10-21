@@ -14,6 +14,7 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from .filters import PostFilter
 from .forms import PostForm, AuthorForm, CategoryForm
 from .models import Post, Author, Category, SubscribersUsers
+from .tasks import t_p
 
 
 # from django.db.models.signals import post_save
@@ -62,6 +63,7 @@ class NewsDetail(DetailView):
             # print(context['category'])
         print(context)
         # print(context['is_subscriber'])
+        t_p.delay()
         return context
 
 
