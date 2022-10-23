@@ -179,8 +179,8 @@ APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
 
 APSCHELDULER_RUN_NOW_TIMEOUT = 25
 
-CELERY_BROKER_URL = 'redis://default:redispw@localhost:49154'
-CELERY_RESULT_BACKEND = 'redis://default:redispw@localhost:49154'
+CELERY_BROKER_URL = 'redis://default:redispw@localhost:49153'
+CELERY_RESULT_BACKEND = 'redis://default:redispw@localhost:49153'
 # CELERY_BROKER_URL = 'redis://localhost:6379'
 # CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
