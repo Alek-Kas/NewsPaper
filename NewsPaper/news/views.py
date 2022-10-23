@@ -14,6 +14,7 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from .filters import PostFilter
 from .forms import PostForm, AuthorForm, CategoryForm
 from .models import Post, Author, Category, SubscribersUsers
+from .tasks import mail_after_create
 
 
 # from django.db.models.signals import post_save
@@ -62,6 +63,7 @@ class NewsDetail(DetailView):
             # print(context['category'])
         print(context)
         # print(context['is_subscriber'])
+        # t_p.delay()
         return context
 
 
@@ -117,11 +119,14 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
         post = form.save(commit=False)
         post.post_type = 'news'
         post.post_author = Author.objects.get(author_user=self.request.user)
+
+        # mail_after_create()
+
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        limit = 3
+        limit = 3  # Количество постов в день для одного автора
         context['limit'] = limit
         last_day = datetime.datetime.now() - datetime.timedelta(days=1)
         posts_day_count = Post.objects.filter(
