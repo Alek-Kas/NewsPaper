@@ -19,6 +19,6 @@ app.conf.beat_schedule = {
     },
     # 'test_print': {
     #     'task': 'news.tasks.t_p',
-    #     'schedule': crontab(minute='*/30'),
+    #     'schedule': crontab(minute='*'),
     # },
 }

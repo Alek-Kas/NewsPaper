@@ -10,9 +10,32 @@ from django.template.loader import render_to_string
 from .models import Post, Category
 
 
+# @shared_task
+# def t_p():
+#     print('Print from news.tasks every minute')
+
+
 @shared_task
-def t_p():
-    print('Print from news.tasks every minute')
+def mail_after_create(text, pk, title, subscribers):
+    time.sleep(10)
+    print('Отправка письма при помощи Celery после создания новости')
+
+    html_content = render_to_string(
+        'post_created_email.html',
+        {
+            'text': f'{text[:50]}',
+            'link': f'{settings.SITE_URL}/news/{pk}',
+        }
+    )
+    msg = EmailMultiAlternatives(
+        subject=title,
+        body='',
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        bcc=subscribers,
+    )
+
+    msg.attach_alternative(html_content, 'text/html')
+    msg.send()
 
 
 @shared_task

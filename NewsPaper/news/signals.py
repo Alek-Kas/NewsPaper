@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.template.loader import render_to_string
 
 from .models import PostCategory
+from .tasks import mail_after_create
 
 
 def send_notifications(text, pk, title, subscribers):
@@ -38,4 +39,5 @@ def notify_about_new_post(sender, instance, **kwargs):
         subscribers = [s.email for s in subscribers]
         print(subscribers)
 
-        send_notifications(instance.post_text, instance.pk, instance.post_heading, subscribers)
+        # send_notifications(instance.post_text, instance.pk, instance.post_heading, subscribers)
+        mail_after_create(instance.post_text, instance.pk, instance.post_heading, subscribers)
