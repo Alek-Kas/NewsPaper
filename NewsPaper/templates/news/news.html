@@ -2,11 +2,13 @@
 {% extends 'default.html' %}
 
 {% load censor_filter %}
-
+{% load cache %}
 <!-- Название у нас будет Пост -->
-{% block title %}
-Post
-{% endblock title %}
+{% cache 30 title %}
+    {% block title %}
+    Post
+    {% endblock title %}
+{% endcache %}
 
 <!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
 {% block content %}

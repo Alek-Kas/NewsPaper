@@ -4,6 +4,7 @@ from django.db.models import Sum
 
 # Create your models here.
 from django.urls import reverse
+from django.core.cache import cache
 
 
 class Author(models.Model):  # наследуемся от класса Model
@@ -101,6 +102,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('news', args=[str(self.id)])
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)  # сначала вызываем метод родителя, чтобы объект сохранился
+        cache.delete(f'post-{self.pk}')  # затем удаляем его из кэша, чтобы сбросить его
 
     class Meta:
         verbose_name = 'Пост'

@@ -3,10 +3,12 @@
 {% load censor_filter %}
 {% load custom_tags %}
 
-{% block title %}
-Посты
-{% endblock title %}
-
+{% load cache %} <!-- Загружаем кэширование -->
+    {% cache 30 title %} <!-- Кэшируем отдельный блок на 30 секунд -->
+        {% block title %}
+        Посты
+        {% endblock title %}
+    {% endcache %}
 {% block content %}
     <h1>Все сообщения</h1>
     <hr>

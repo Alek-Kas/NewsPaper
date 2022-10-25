@@ -15,6 +15,7 @@ from .filters import PostFilter
 from .forms import PostForm, AuthorForm, CategoryForm
 from .models import Post, Author, Category, SubscribersUsers
 from .tasks import mail_after_create
+from django.core.cache import cache # импортируем наш кэш
 
 
 # from django.db.models.signals import post_save
@@ -46,6 +47,8 @@ class NewsDetail(DetailView):
     template_name = 'news/news.html'
     context_object_name = 'news'
 
+    queryset = Post.objects.all()
+
     # pk_url_kwarg = 'id'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -65,6 +68,16 @@ class NewsDetail(DetailView):
         # print(context['is_subscriber'])
         # t_p.delay()
         return context
+
+    def get_object(self, *args, **kwargs):  # переопределяем метод получения объекта, как ни странно
+        obj = cache.get(f'post-{self.kwargs["pk"]}',
+                        None)  # кэш очень похож на словарь, и метод get действует так же.
+        # Он забирает значение по ключу, если его нет, то забирает None.
+        # если объекта нет в кэше, то получаем его и записываем в кэш
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+        return obj
 
 
 @login_required
