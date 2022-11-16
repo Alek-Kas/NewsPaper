@@ -2,13 +2,11 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
 
-# Create your models here.
 from django.urls import reverse
 from django.core.cache import cache
 
 
 class Author(models.Model):  # наследуемся от класса Model
-    # full_name = models.CharField()
     rating = models.IntegerField(default=0, verbose_name='Рейтинг')
     author_user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Автор')
 
@@ -45,7 +43,6 @@ class Category(models.Model):
         unique=True,
         help_text='Категория поста',
         verbose_name='Категория')
-    # is_subscriber=False
     subscribers = models.ManyToManyField(User, through='SubscribersUsers', verbose_name='Подписчики')
 
     def __str__(self):
@@ -83,14 +80,10 @@ class Post(models.Model):
     def like(self):
         self.post_rating += 1
         self.save()
-        # rating = self.post_rating
-        # return self.post_rating += 1
 
     def dislike(self):
         self.post_rating -= 1
         self.save()
-        # rating = self.post_rating
-        # return self.post_rating -= 1
 
     #  Метод preview() модели Post, который возвращает начало статьи (предварительный просмотр)
     #  длиной 124 символа и добавляет многоточие в конце.
@@ -129,14 +122,10 @@ class Comment(models.Model):
     def like(self):
         self.comment_rating += 1
         self.save()
-        # rating = self.comment_rating
-        # return self.comment_rating += 1
 
     def dislike(self):
         self.comment_rating -= 1
         self.save()
-        # rating = self.comment_rating
-        # return self.comment_rating -= 1
 
 
 class SubscribersUsers(models.Model):

@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     # ... include the providers you want to enable:
-    # 'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
     'django_apscheduler',
 ]
@@ -162,16 +161,12 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# print(EMAIL)
 print(os.getenv("EMAIL"))
-# DEFAULT_FROM_EMAIL = EMAIL
 DEFAULT_FROM_EMAIL = os.getenv("EMAIL")
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_PORT = 2525
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-# EMAIL_HOST_USER = EMAIL
-# EMAIL_HOST_PASSWORD = EMAIL_PASSWORD
 EMAIL_HOST_USER = os.getenv("EMAIL")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
@@ -190,8 +185,6 @@ APSCHELDULER_RUN_NOW_TIMEOUT = 25
 
 CELERY_BROKER_URL = 'redis://default:redispw@localhost:49153'
 CELERY_RESULT_BACKEND = 'redis://default:redispw@localhost:49153'
-# CELERY_BROKER_URL = 'redis://localhost:6379'
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

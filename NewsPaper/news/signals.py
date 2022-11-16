@@ -39,5 +39,4 @@ def notify_about_new_post(sender, instance, **kwargs):
         subscribers = [s.email for s in subscribers]
         print(subscribers)
 
-        # send_notifications(instance.post_text, instance.pk, instance.post_heading, subscribers)
         mail_after_create(instance.post_text, instance.pk, instance.post_heading, subscribers)

@@ -1,8 +1,7 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from .models import Post, Author, Category, SubscribersUsers
+from .models import Post, Author, SubscribersUsers
 
 
 class PostForm(forms.ModelForm):

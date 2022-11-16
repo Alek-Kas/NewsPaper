@@ -10,11 +10,6 @@ from django.template.loader import render_to_string
 from .models import Post, Category
 
 
-# @shared_task
-# def t_p():
-#     print('Print from news.tasks every minute')
-
-
 @shared_task
 def mail_after_create(text, pk, title, subscribers):
     time.sleep(10)

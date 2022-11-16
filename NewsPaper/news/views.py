@@ -1,12 +1,8 @@
-# from django.shortcuts import render
-
-# Create your views here.
-# from django.http import HttpResponse
 import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-from django.contrib.auth.models import User
+from django.core.cache import cache  # импортируем наш кэш
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
@@ -14,23 +10,6 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from .filters import PostFilter
 from .forms import PostForm, AuthorForm, CategoryForm
 from .models import Post, Author, Category, SubscribersUsers
-from .tasks import mail_after_create
-from django.core.cache import cache # импортируем наш кэш
-
-
-# from django.db.models.signals import post_save
-# from django.dispatch import receiver
-
-# @receiver(post_save, sender=Post)
-# def notify_post_new(sender, instance, create, **kwargs):
-#     mail_subsriber(
-#         subject=f'{instance.Post.post_heading}',
-#         message=instance.message
-#     )
-#     print(f'{instance.Post.post_heading} {instance.message}')
-
-
-# post_save.connect(notify_post_new, sender=Post)
 
 
 class NewsList(ListView):
@@ -49,24 +28,15 @@ class NewsDetail(DetailView):
 
     queryset = Post.objects.all()
 
-    # pk_url_kwarg = 'id'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         print(context)
         for category in self.get_object().post_cat.all():
-            # print(self.request.user)
             current_user = self.request.user
-            # print(current_user)
             if current_user != 'AnonimusUser':
-                # context['is_subscriber', category.pk] = self.request.user.category_set.filter(pk=category.pk).exists()
                 context['is_subscriber'] = self.request.user.category_set.filter(pk=category.pk).exists()
-                # context['category'] = category.pk
-            # print(category)
             print(context)
-            # print(context['category'])
         print(context)
-        # print(context['is_subscriber'])
-        # t_p.delay()
         return context
 
     def get_object(self, *args, **kwargs):  # переопределяем метод получения объекта, как ни странно
@@ -132,9 +102,6 @@ class NewsCreate(PermissionRequiredMixin, CreateView):
         post = form.save(commit=False)
         post.post_type = 'news'
         post.post_author = Author.objects.get(author_user=self.request.user)
-
-        # mail_after_create()
-
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -166,7 +133,6 @@ class ArticlesCreate(PermissionRequiredMixin, CreateView):
 
 class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
-    # print(model, model.post_heading, model.pk)
     template_name = 'news/news_delete.html'
     permission_required = ('news.delete_post',)
     success_url = reverse_lazy('newslist')
@@ -186,18 +152,12 @@ class AuthorUpdate(LoginRequiredMixin, UpdateView):
 
 
 class SubscribeCreate(LoginRequiredMixin, CreateView):
-    # model = Category
     model = SubscribersUsers
-    # ordering = 'cat'
     form_class = CategoryForm
     template_name = 'news/subscribe.html'
-    # print(str(Category.pk))
 
 
 class SubscribeUpdate(LoginRequiredMixin, UpdateView):
-    # model = Category
     model = SubscribersUsers
-    # ordering = 'cat'
     form_class = CategoryForm
     template_name = 'news/subscribe.html'
-    # print(str(Category.pk))
