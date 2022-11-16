@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -10,6 +11,8 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from .filters import PostFilter
 from .forms import PostForm, AuthorForm, CategoryForm
 from .models import Post, Author, Category, SubscribersUsers
+
+logger = logging.getLogger(__name__)
 
 
 class NewsList(ListView):
@@ -35,8 +38,6 @@ class NewsDetail(DetailView):
             current_user = self.request.user
             if current_user != 'AnonimusUser':
                 context['is_subscriber'] = self.request.user.category_set.filter(pk=category.pk).exists()
-            print(context)
-        print(context)
         return context
 
     def get_object(self, *args, **kwargs):  # переопределяем метод получения объекта, как ни странно

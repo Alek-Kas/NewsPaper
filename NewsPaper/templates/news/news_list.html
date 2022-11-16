@@ -22,7 +22,7 @@
 
             {% for news in newslist %}
             <tr>
-                <td>{{ news.post_heading|censor }}</td>
+                <td><a href="{% url 'news' news.pk %}">{{ news.post_heading|censor }}</a></td>
                 <td>{{ news.post_time }}</td>
                 <td>{{ news.post_text|censor|truncatechars:22 }}</td>
                 <!-- Используем наш фильтр -->
