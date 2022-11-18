@@ -35,6 +35,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
+ADMINS = [('Aleks', 'spawn_kas@mail.ru')]
+
 # Application definition
 
 INSTALLED_APPS = [
