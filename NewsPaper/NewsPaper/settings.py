@@ -284,8 +284,9 @@ LOGGING = {
         },
         'django.security': {
             'handlers': ['security'],
+            'level': 'INFO',
             'propagate': False,
-            # 'formatter': 'for_file',
+            'formatter': 'for_file',
         },
         'django.request': {
             'handlers': ['mail_admins', 'errors'],
