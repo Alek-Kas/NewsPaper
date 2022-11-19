@@ -10,7 +10,6 @@
     {% endblock title %}
 {% endcache %}
 
-<!-- В контенте на странице мы выводим сам товар, идентификатор которого был передан в url -->
 {% block content %}
 <h1>Заголовок поста:<br>{{ news.post_heading|censor }}</h1><br>
 <h2>Текст поста:<br>{{ news.post_text|censor }}</h2><br>
@@ -22,7 +21,6 @@
 <h4>Автор поста:<br>{{ news.post_author }}</h4>
 
     {% for category in news.post_cat.all %}
-<!--        {{ category }}-->
         {% if is_subscriber %}
             <b>Вы можете отписаться от данной категории:</b>
                 <a class="btn" href="delete_subscribe/{{ category.id }}">

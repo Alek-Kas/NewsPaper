@@ -33,7 +33,7 @@ class NewsDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(context)
+        # print(context)
         for category in self.get_object().post_cat.all():
             current_user = self.request.user
             if current_user != 'AnonimusUser':
