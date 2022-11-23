@@ -23,6 +23,10 @@ load_dotenv(dotenv_path=env_path)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale')
+]
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -30,8 +34,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-v30dgw!8p)p)@f2(dkk8)#n(9x2jx2)w38m+4s@a8!^*!ku1qb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-DEBUG = False
+DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1']
 
@@ -66,6 +70,9 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+
+    'django.middleware.locale.LocaleMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -133,7 +140,12 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
+
+# LANGUAGE_CODE = [
+#     ('en-us', 'English'),
+#     ('ru', 'Русский')
+# ]
 
 TIME_ZONE = 'Europe/Moscow'
 # TIME_ZONE = 'UTC'
@@ -279,7 +291,8 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console_debug', 'console_warning', 'console_error', 'general'],
-            'level': 'DEBUG',
+            # 'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'django.security': {
@@ -303,7 +316,7 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
-        'django.db_backends': {
+        'django.db.backends': {
             'handlers': ['errors'],
             'level': 'ERROR',
             'propagate': False,
