@@ -53,13 +53,6 @@ class NewsDetail(DetailView):
             cache.set(f'post-{self.kwargs["pk"]}', obj)
         return obj
 
-    # def get(self, request):
-    #     models = Post.objects.all()
-    #     context = {
-    #         'models': models,
-    #     }
-    #     return HttpResponse(render(request, 'news.html', context))
-
 
 @login_required
 def add_subscribe(request, **kwargs):
