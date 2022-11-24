@@ -11,6 +11,11 @@
 {% endcache %}
 
 {% block content %}
+{% for model in models %}
+    <div class="model-class">
+        {{ model.name }}
+    </div>
+{% endfor %}
 <h1>Заголовок поста:<br>{{ news.post_heading|censor }}</h1><br>
 <h2>Текст поста:<br>{{ news.post_text|censor }}</h2><br>
 <h3>Дата создания поста:<br>{{ news.post_time|date:'d M Y' }}</h3><br>

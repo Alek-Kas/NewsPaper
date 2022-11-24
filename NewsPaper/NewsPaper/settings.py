@@ -46,6 +46,7 @@ ADMINS = [('Aleks', EMAIL_ADMIN)]
 # Application definition
 
 INSTALLED_APPS = [
+    'modeltranslation',  # обязательно впишите его перед админом
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

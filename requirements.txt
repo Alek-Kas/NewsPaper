@@ -39,3 +39,4 @@ pycparser~=2.21
 wrapt~=1.14.1
 setuptools~=57.0.0
 python-dotenv~=0.21.0
+django-modeltranslation~=0.18.7

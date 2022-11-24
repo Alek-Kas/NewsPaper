@@ -4,7 +4,8 @@ import logging
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.cache import cache  # импортируем наш кэш
-from django.shortcuts import redirect
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 
@@ -30,6 +31,7 @@ class NewsDetail(DetailView):
     context_object_name = 'news'
 
     queryset = Post.objects.all()
+    context = {'models': queryset}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -37,6 +39,7 @@ class NewsDetail(DetailView):
         for category in self.get_object().post_cat.all():
             current_user = self.request.user
             if current_user != 'AnonimusUser':
+
                 context['is_subscriber'] = self.request.user.category_set.filter(pk=category.pk).exists()
         return context
 
@@ -49,6 +52,13 @@ class NewsDetail(DetailView):
             obj = super().get_object(queryset=self.queryset)
             cache.set(f'post-{self.kwargs["pk"]}', obj)
         return obj
+
+    # def get(self, request):
+    #     models = Post.objects.all()
+    #     context = {
+    #         'models': models,
+    #     }
+    #     return HttpResponse(render(request, 'news.html', context))
 
 
 @login_required
