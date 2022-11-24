@@ -1,14 +1,16 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
+from django.utils.translation import gettext as _
+from django.utils.translation import pgettext_lazy
 
 from django.urls import reverse
 from django.core.cache import cache
 
 
 class Author(models.Model):  # наследуемся от класса Model
-    rating = models.IntegerField(default=0, verbose_name='Рейтинг')
-    author_user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='Автор')
+    rating = models.IntegerField(default=0, verbose_name=pgettext_lazy('Rating', 'Rating'))
+    author_user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name=pgettext_lazy('Author', 'Author'))
 
     #  Метод update_rating() модели Author, который обновляет рейтинг пользователя, переданный в аргумент этого метода
     #  суммарный рейтинг каждой статьи автора умножается на 3;
@@ -41,9 +43,12 @@ class Category(models.Model):
     cat = models.CharField(
         max_length=64,
         unique=True,
-        help_text='Категория поста',
-        verbose_name='Категория')
-    subscribers = models.ManyToManyField(User, through='SubscribersUsers', verbose_name='Подписчики')
+        # help_text='Категория поста',
+        help_text=_('Категория поста'),
+        verbose_name=pgettext_lazy('Category', 'Category'))
+    subscribers = models.ManyToManyField(
+        User, through='SubscribersUsers', verbose_name=pgettext_lazy('Subscribers', 'Subscribers')
+    )
 
     def __str__(self):
         return f'{self.cat}'
@@ -52,8 +57,8 @@ class Category(models.Model):
         return reverse('subscribeupdate', args=[str(self.id)])
 
     class Meta:
-        verbose_name = 'Категория'
-        verbose_name_plural = 'Категории'
+        verbose_name = pgettext_lazy('Category', 'Category')
+        verbose_name_plural = pgettext_lazy('Categories', 'Categories')
 
 
 article = 'AR'
@@ -68,13 +73,17 @@ class Post(models.Model):
     post_type = models.CharField(max_length=2,
                                  choices=POST,
                                  default=article,
-                                 verbose_name='Тип поста')
+                                 verbose_name=pgettext_lazy('Post type', 'Post type'))
     post_time = models.DateTimeField(auto_now_add=True)
-    post_heading = models.CharField(max_length=64, verbose_name='Заголовок поста')
-    post_text = models.TextField(max_length=1024, verbose_name='Текст поста')
-    post_rating = models.IntegerField(default=0, verbose_name='Рейтинг поста')
-    post_author = models.ForeignKey(Author, on_delete=models.CASCADE, verbose_name='Автор поста')
-    post_cat = models.ManyToManyField(Category, through='PostCategory', verbose_name='Категория поста')
+    post_heading = models.CharField(max_length=64, verbose_name=pgettext_lazy('Post heading', 'Post title'))
+    post_text = models.TextField(max_length=1024, verbose_name=pgettext_lazy('Text of the post', 'Text of the post'))
+    post_rating = models.IntegerField(default=0, verbose_name=pgettext_lazy('Post rating', 'Post rating'))
+    post_author = models.ForeignKey(
+        Author, on_delete=models.CASCADE, verbose_name=pgettext_lazy('Author of the post', 'Author of the post')
+    )
+    post_cat = models.ManyToManyField(
+        Category, through='PostCategory', verbose_name=pgettext_lazy('Post category', 'Post category')
+    )
 
     #  Методы like() и dislike() в моделях Comment и Post, которые увеличивают/уменьшают рейтинг на единицу
     def like(self):
